@@ -1,5 +1,6 @@
 import { AnimatedTestimonials } from '@/components/ui/animated-testimonials';
-import { Button } from '@/components/ui/button';
+import { TextAnimate } from '@/components/ui/text-animate';
+
 
 const Testimonial = () => {
   const testimonials = [
@@ -42,15 +43,15 @@ const Testimonial = () => {
   return (
     <section className="mx-auto w-full max-w-7xl px-6 py-16">
       <div className="mx-auto max-w-4xl text-center">
-        <h2 className="text-3xl font-extrabold tracking-tight dark:text-white sm:text-4xl">
+        <TextAnimate  animation="blurIn" as="h2" className="text-3xl font-extrabold tracking-tight dark:text-white sm:text-4xl">
           What our customers say
-        </h2>
-        <p className="mt-4 text-lg text-gray-400 dark:text-neutral-300">
+        </TextAnimate>
+        <TextAnimate  animation="blurIn" as="h2" className="mt-4 text-lg text-gray-400 dark:text-neutral-300">
           Real stories from teams who accelerated their work with AI-powered presentations. Design, generate, and iterate in minutes — not hours.
-        </p>
-        <p className="mt-4 text-sm text-gray-400 dark:text-neutral-400">
+        </TextAnimate>
+        <TextAnimate className="mt-4 text-sm text-gray-400 dark:text-neutral-400">
           We partner with product, design, and go-to-market teams to turn ideas into polished slides that close deals and inform decisions.
-        </p>
+        </TextAnimate>
       </div>
 
       <div className="mt-12 mx-auto max-w-5xl">
