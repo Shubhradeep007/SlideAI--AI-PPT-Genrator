@@ -21,6 +21,16 @@ const Description = () => {
               wrestling with templates and layouts. Just provide your content—from
               a simple prompt to a detailed document—and our AI will craft a
               stunning, professional presentation in seconds.
+
+               Welcome to **Slide AI**, your intelligent design partner. Stop
+              wrestling with templates and layouts. Just provide your content—from
+              a simple prompt to a detailed document—and our AI will craft a
+              stunning, professional presentation in seconds.
+
+              Welcome to **Slide AI**, your intelligent design partner. Stop
+              wrestling with templates and layouts. Just provide your content—from
+              a simple prompt to a detailed document—and our AI will craft a
+              stunning, professional presentation in seconds.
             </TextAnimate>
           </div>
         </div>
