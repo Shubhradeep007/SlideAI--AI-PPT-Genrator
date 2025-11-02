@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import './GooeyNav.css';
+import { Link } from 'react-router-dom';
 
 interface GooeyNavItem {
   label: string;
@@ -15,6 +16,10 @@ export interface GooeyNavProps {
   timeVariance?: number;
   colors?: number[];
   initialActiveIndex?: number;
+  /** Controlled active index (optional) */
+  activeIndex?: number;
+  /** Callback when active item changes (user click) */
+  onActiveChange?: (index: number) => void;
 }
 
 const GooeyNav: React.FC<GooeyNavProps> = ({
@@ -26,12 +31,22 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
   timeVariance = 300,
   colors = [1, 2, 3, 1, 2, 3, 1, 4],
   initialActiveIndex = 0
+  , activeIndex: controlledActiveIndex,
+  onActiveChange,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const navRef = useRef<HTMLUListElement>(null);
   const filterRef = useRef<HTMLSpanElement>(null);
   const textRef = useRef<HTMLSpanElement>(null);
   const [activeIndex, setActiveIndex] = useState<number>(initialActiveIndex);
+
+  // Sync controlled activeIndex when provided
+  useEffect(() => {
+    if (typeof controlledActiveIndex === 'number' && controlledActiveIndex !== activeIndex) {
+      setActiveIndex(controlledActiveIndex);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [controlledActiveIndex]);
 
   const noise = (n = 1) => n / 2 - Math.random() * n;
 
@@ -41,7 +56,7 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
   };
 
   const createParticle = (i: number, t: number, d: [number, number], r: number) => {
-    let rotate = noise(r / 10);
+    const rotate = noise(r / 10);
     return {
       start: getXY(d[0], particleCount - i, particleCount),
       end: getXY(d[1] + noise(7), particleCount - i, particleCount),
@@ -112,8 +127,8 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, index: number) => {
     const liEl = e.currentTarget;
     if (activeIndex === index) return;
-
     setActiveIndex(index);
+    if (onActiveChange) onActiveChange(index);
     updateEffectPosition(liEl);
 
     if (filterRef.current) {
@@ -173,9 +188,15 @@ const GooeyNav: React.FC<GooeyNavProps> = ({
         <ul ref={navRef}>
           {items.map((item, index) => (
             <li key={index} className={activeIndex === index ? 'active' : ''}>
-              <a href={item.href} onClick={e => handleClick(e, index)} onKeyDown={e => handleKeyDown(e, index)}>
-                {item.label}
-              </a>
+              {item.href.startsWith('/') ? (
+                <Link to={item.href} onClick={(e: React.MouseEvent<HTMLAnchorElement>) => handleClick(e, index)} onKeyDown={(e: React.KeyboardEvent<HTMLAnchorElement>) => handleKeyDown(e, index)}>
+                  {item.label}
+                </Link>
+              ) : (
+                <a href={item.href} onClick={e => handleClick(e, index)} onKeyDown={e => handleKeyDown(e, index)}>
+                  {item.label}
+                </a>
+              )}
             </li>
           ))}
         </ul>

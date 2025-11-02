@@ -1,5 +1,6 @@
 
 import Wrapper from "@/layout/Wrapper";
+import About from "@/pages/about/About";
 import Home from "@/pages/Home/Home";
 // import Projects from "@/pages/Projects";
 // import Workspace from "@/pages/Workspace";
@@ -14,6 +15,10 @@ const Router = createBrowserRouter([
             {
                 path:"",
                 element:<Home />
+            },
+            {
+                path:"/about",
+                element:<About />
             },
             // {
             //     path:"/workspace",
