@@ -13,7 +13,7 @@ const Navbar = () => {
   const items = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-    { label: "Contact", href: "#" },
+    { label: "Contact", href: "/contact" },
   ];
   const currentIndex = items.findIndex((i) => i.href === location.pathname);
 
