@@ -6,7 +6,7 @@ import { Menu, X } from "lucide-react";
 import testImage from "../assets/logo.png";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
-// import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+
 
 const Navbar = () => {
   const { user } = useUser();
