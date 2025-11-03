@@ -1,4 +1,6 @@
 import AboutCard from "./AboutCard"
+import { AboutFeature } from "./AboutFeature"
+import AboutFooter from "./AboutFooter"
 import AboutTopScton from "./AboutTopScton"
 
 const About = () => {
@@ -6,6 +8,8 @@ const About = () => {
     <>
     <AboutTopScton />
     <AboutCard />
+    <AboutFeature />
+    <AboutFooter />
     </>
   )
 }
