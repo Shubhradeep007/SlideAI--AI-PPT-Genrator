@@ -4,9 +4,13 @@ import GooeyNav from "@/components/GooeyNav";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import testImage from "../assets/logo.png";
+import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
+import { Button } from "@/components/ui/button";
 // import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const Navbar = () => {
+  const { user } = useUser();
+
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -57,13 +61,16 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-3">
-          {/* <AnimatedThemeToggler /> */}
-            <Link
-              to="/get-started"
-              className="hidden sm:inline-flex px-5 py-2 rounded-full bg-white text-black font-medium shadow-sm"
-            >
-              Login
-            </Link>
+            {/* <AnimatedThemeToggler /> */}
+            {!user ? (
+                  <SignInButton mode="modal">
+                    <Button className="w-full text-center rounded bg-white text-black hover:bg-blue-200">
+                      Login
+                    </Button>
+                  </SignInButton>
+                ) : (
+                  <UserButton />
+                )}
 
             {/* mobile menu button */}
             <button
@@ -91,13 +98,17 @@ const Navbar = () => {
                   </Link>
                 </li>
               ))}
+
               <li className="pt-2">
-                <Link
-                  to="/get-started"
-                  className="block w-full text-center px-4 py-2 rounded-full bg-black text-white"
-                >
-                  Login
-                </Link>
+                {!user ? (
+                  <SignInButton mode="modal">
+                    <Button className="block w-full text-center px-4 py-2 rounded-full bg-black text-white">
+                      Login
+                    </Button>
+                  </SignInButton>
+                ) : (
+                  <UserButton />
+                )}
               </li>
             </ul>
           </div>
