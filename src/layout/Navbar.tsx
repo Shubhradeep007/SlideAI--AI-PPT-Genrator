@@ -4,7 +4,7 @@ import GooeyNav from "@/components/GooeyNav";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import testImage from "../assets/logo.png";
-import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
+// import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 
 const Navbar = () => {
   const [open, setOpen] = useState(false);
@@ -57,7 +57,7 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-3">
-          <AnimatedThemeToggler />
+          {/* <AnimatedThemeToggler /> */}
             <Link
               to="/get-started"
               className="hidden sm:inline-flex px-5 py-2 rounded-full bg-white text-black font-medium shadow-sm"

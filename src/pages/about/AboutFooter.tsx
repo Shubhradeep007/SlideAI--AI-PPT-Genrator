@@ -10,7 +10,7 @@ const AboutFooter = () => {
           initial={{ opacity: 0.5, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.15, duration: 0.6, ease: "easeInOut" }}
-          className="bg-clip-text bg-linear-to-br from-slate-400 to-slate-600 text-transparent text-2xl md:text-3xl lg:text-4xl font-semibold text-center leading-tight"
+          className="bg-clip-text bg-linear-to-br text-white/50 to-slate-600 text-2xl md:text-3xl lg:text-4xl font-semibold text-center leading-tight"
         >
           Focus on your story — we’ll handle the design.
         </motion.h1>
@@ -19,7 +19,7 @@ const AboutFooter = () => {
           initial={{ opacity: 0.4, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.6, ease: "easeInOut" }}
-          className="mt-3 text-center text-sm md:text-base text-neutral-600 dark:text-neutral-300 max-w-3xl mx-auto"
+          className="mt-3 text-center text-sm md:text-base text-white/50 dark:text-neutral-300 max-w-3xl mx-auto"
         >
           Start creating presentations that captivate and convince. Let our AI
           be your co-pilot in layout, imagery and polish so you can focus on the
@@ -31,7 +31,7 @@ const AboutFooter = () => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="mt-8 text-center text-sm uppercase tracking-wider text-neutral-500 dark:text-neutral-400"
+          className="mt-8 text-center text-sm uppercase tracking-wider  text-white/50 dark:text-neutral-400"
         >
           Built by
         </motion.h3>
