@@ -1,11 +1,12 @@
 import Wrapper from "@/layout/Wrapper";
 import About from "@/pages/about/About";
 import Home from "@/pages/Home/Home";
-import  Contactus  from "@/pages/contactus/Contactus";
+import Contactus from "@/pages/contactus/Contactus";
+import Workspace from "@/pages/workspace/Workspace";
 // import Projects from "@/pages/Projects";
-// import Workspace from "@/pages/Workspace";
 
 import { createBrowserRouter } from "react-router-dom";
+import Protectedroutes from "@/layout/Protectedroutes";
 
 const Router = createBrowserRouter([
   {
@@ -25,13 +26,19 @@ const Router = createBrowserRouter([
         element: <Contactus />,
       },
       // {
-      //     path:"/workspace",
-      //     element: <Workspace />
-      // },
-      // {
       //     path:"/project/:id",
       //     element: <Projects />
       // }
+    ],
+  },
+  {
+    path: "",
+    element: <Protectedroutes />,
+    children: [
+      {
+        path: "/workspace",
+        element: <Workspace />,
+      },
     ],
   },
 ]);

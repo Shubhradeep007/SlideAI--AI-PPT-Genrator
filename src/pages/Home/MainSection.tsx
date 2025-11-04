@@ -2,6 +2,7 @@ import { BackgroundRippleEffect } from "@/components/ui/background-ripple-effect
 import { Button } from "@/components/ui/button";
 import { TextAnimate } from "@/components/ui/text-animate";
 import { useUser, SignInButton } from "@clerk/clerk-react";
+import { Link } from "react-router-dom";
 
 const MainSection = () => {
   const { user } = useUser();
@@ -43,9 +44,11 @@ const MainSection = () => {
               </Button>
               </SignInButton>
             ) : (
+              <Link to="/workspace">
               <Button className="bg-black text-white hover:bg-gray-800 rounded">
                 Go to Workspace
               </Button>
+              </Link>
             )}
           </div>
         </div>

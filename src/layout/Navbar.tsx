@@ -1,19 +1,20 @@
-import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import GooeyNav from "@/components/GooeyNav";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Gem, Menu, X } from "lucide-react";
 import testImage from "../assets/logo.png";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
-
+import { UserDetailContext } from "@/hooks/context/UserDetailContext";
 
 const Navbar = () => {
   const { user } = useUser();
+  const { userDetail } = useContext(UserDetailContext);
 
   const [open, setOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
+
   const items = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
@@ -21,10 +22,13 @@ const Navbar = () => {
   ];
   const currentIndex = items.findIndex((i) => i.href === location.pathname);
 
+  const isWorkspace = location.pathname.includes("workspace");
+
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 px-4">
       <div className="mx-auto max-w-7xl p-3">
         <div className="flex items-center justify-between mt-2 p-3 md:p-4 rounded-3xl bg-white/30 dark:bg-neutral-900/40 backdrop-blur-md border border-white/10 dark:border-neutral-800/40 shadow-sm">
+          {/* Logo */}
           <div className="flex items-center gap-4">
             <div className="w-[110px] shrink-0">
               <img
@@ -37,6 +41,7 @@ const Navbar = () => {
             </div>
           </div>
 
+          {/* Desktop Navigation */}
           <div className="flex-1 px-4">
             <div className="hidden md:flex justify-center">
               <GooeyNav
@@ -60,21 +65,46 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div className="flex items-center gap-3">
-            {/* <AnimatedThemeToggler /> */}
+          {/* Desktop Right Side */}
+          <div className="hidden md:flex items-center gap-4">
             {!user ? (
-                  <SignInButton mode="modal">
-                    <Button className="w-full text-center rounded bg-white text-black hover:bg-blue-200">
-                      Login
-                    </Button>
-                  </SignInButton>
+              <SignInButton mode="modal">
+                <Button className="rounded bg-white text-black hover:bg-blue-200">
+                  Login
+                </Button>
+              </SignInButton>
+            ) : (
+              <>
+                <UserButton />
+                {isWorkspace ? (
+                  <div className="flex items-center gap-2 text-white dark:text-white">
+                    <Gem size={18} color="white"/> {userDetail?.credits ?? 0}
+                  </div>
                 ) : (
-                  <UserButton />
+                  <Link to="/workspace">
+                    <Button className="rounded bg-black text-white hover:bg-neutral-800">
+                      Go to workspace
+                    </Button>
+                  </Link>
                 )}
+              </>
+            )}
+          </div>
 
-            {/* mobile menu button */}
+          {/* Mobile menu toggle */}
+          <div className="md:hidden flex items-center">
+            {!user ? (
+              <SignInButton mode="modal">
+                <Button className="rounded bg-white text-black hover:bg-blue-200">
+                  Login
+                </Button>
+              </SignInButton>
+            ) : (
+              <UserButton />
+            )}
+
             <button
-              className="md:hidden inline-flex items-center justify-center rounded-md p-2 text-black/80 dark:text-white/80"
+              className="ml-2 inline-flex items-center justify-center rounded-md p-2 text-black/80 dark:text-white/80"
               onClick={() => setOpen(!open)}
               aria-label="Toggle menu"
             >
@@ -83,7 +113,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* mobile menu panel */}
+        {/* Mobile Menu Panel */}
         {open && (
           <div className="md:hidden mt-2 rounded-xl bg-white/30 dark:bg-neutral-900/40 backdrop-blur-md border border-white/10 dark:border-neutral-800/40 p-3 shadow-lg">
             <ul className="flex flex-col gap-2">
@@ -107,7 +137,22 @@ const Navbar = () => {
                     </Button>
                   </SignInButton>
                 ) : (
-                  <UserButton />
+                  <>
+                    <div className="flex items-center justify-between px-3">
+                      <UserButton />
+                      {isWorkspace ? (
+                        <div className="flex items-center gap-2 text-black dark:text-white">
+                          <Gem size={18} color="bg-white"/> {userDetail?.credits ?? 0}
+                        </div>
+                      ) : (
+                        <Link to="/workspace" onClick={() => setOpen(false)}>
+                          <Button className="rounded bg-black text-white hover:bg-neutral-800">
+                            Go to workspace
+                          </Button>
+                        </Link>
+                      )}
+                    </div>
+                  </>
                 )}
               </li>
             </ul>
