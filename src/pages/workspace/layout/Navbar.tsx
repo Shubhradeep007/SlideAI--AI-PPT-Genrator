@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import GooeyNav from "@/components/GooeyNav";
 import { Gem, Menu, X } from "lucide-react";
-import testImage from "../assets/logo.png";
+import testImage from "../../../assets/logo.png";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { UserDetailContext } from "@/hooks/context/UserDetailContext";
@@ -18,9 +18,8 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const items = [
-    { label: "Home", href: "/" },
-    { label: "About", href: "/about" },
-    { label: "Contact", href: "/contact" },
+    { label: "Workspce", href: "/about" },
+    { label: "Pricing", href: "/contact" },
   ];
 
   const currentIndex = items.findIndex((i) => i.href === location.pathname);

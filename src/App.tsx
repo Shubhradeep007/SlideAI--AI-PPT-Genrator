@@ -13,7 +13,7 @@ function App() {
   return (
     <>
     <UserDetailContext.Provider value={{userDetail, setUserDetail}}> 
-      <Toaster position='top-right' />
+      {/* <Toaster position='top-right' /> */}
       <RouterProvider router={Router} />
       </UserDetailContext.Provider>
     </>
