@@ -1,10 +1,10 @@
 import { firebaseDb, GemeniAIModel } from "@/config/FirebaseConfig";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import SliderStyle from "@/components/custom/SliderStyle";
 import OutlineSection from "@/components/custom/OutlineSection";
-import { ArrowRight, Merge } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const OUTLINE_PROMPT = `
@@ -20,12 +20,14 @@ Return **ONLY JSON**:
 ]
 `;
 
-type Project = {
+export type Project = {
   userInputPrompt: string;
   projectId: string;
   createdAt: number;
   noOfSlider: string;
-  outline?: SlideOutline[];
+  outline?: SlideOutline[] ;
+  slides: any[];
+  designStyle: DesignStyle;
 };
 
 export type SlideOutline = {
@@ -34,12 +36,19 @@ export type SlideOutline = {
   outline: string;
 };
 
+export type DesignStyle = {
+  colors: any;
+  designGuide: string;
+  styleName: string;
+}
+
 const Outline = () => {
   const { id } = useParams();
+  const navigate = useNavigate()
   const [projectDetails, setProjectDetail] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
   const [outline, setOutline] = useState<SlideOutline[]>([]);
-  const [selectedStyle, setSelectedStyle] = useState<string>();
+  const [selectedStyle, setSelectedStyle] = useState<DesignStyle | null>(null);
 
   useEffect(() => {
     if (id) {
@@ -96,21 +105,65 @@ const Outline = () => {
     );
   };
 
-  const onGenerateSlider = async (data: any) => {
-    console.log("onGenerateSlider", data);
+  const onGenerateSlider = async () => {
+    console.log("onGenerateSlider - Starting slide generation");
+    console.log("  - Selected style:", selectedStyle);
+    console.log("  - Outline length:", outline.length);
+
+    if (!selectedStyle) {
+      console.error("❌ No style selected");
+      alert("Please select a design style first!");
+      return;
+    }
+
+    if (!outline || outline.length === 0) {
+      console.error("❌ No outline available");
+      alert("Please wait for the outline to be generated!");
+      return;
+    }
 
     setLoading(true);
 
-    await setDoc(
-      doc(firebaseDb, "projects", id as string),
-      {
-        designStyle: selectedStyle,
-        outline: outline,
-      },
-      { merge: true }
-    );
+    try {
+      console.log("💾 Saving designStyle and outline to Firestore...");
+      console.log("  - Outline to save:", JSON.stringify(outline, null, 2));
+      console.log("  - Outline items count:", outline.length);
+      console.log("  - Design style:", selectedStyle?.styleName);
+      
+      // Save outline and design style to database
+      await setDoc(
+        doc(firebaseDb, "projects", id as string),
+        {
+          designStyle: selectedStyle,
+          outline: outline, // Save the complete outline array from AI
+        },
+        { merge: true }
+      );
+      
+      console.log("✅ Outline and designStyle saved successfully to database");
+      console.log("  - Saved outline items:", outline.length);
+      
+      // Verify the save by reading back
+      const verifyDoc = await getDoc(doc(firebaseDb, "projects", id as string));
+      if (verifyDoc.exists()) {
+        const savedData = verifyDoc.data();
+        console.log("✅ Verification - Outline in database:", savedData.outline?.length || 0, "items");
+        if (savedData.outline && savedData.outline.length > 0) {
+          console.log("  - First saved item:", JSON.stringify(savedData.outline[0], null, 2));
+        }
+      }
 
-    setLoading(false);
+      // Small delay to ensure Firestore has fully propagated
+      await new Promise(resolve => setTimeout(resolve, 800));
+
+      console.log("🧭 Navigating to editor page...");
+      // navigate to slider editor
+      navigate('/workspace/project/'+id+'/editor');
+    } catch (error) {
+      console.error("❌ Error saving data:", error);
+      alert("Failed to save project data. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
@@ -118,7 +171,7 @@ const Outline = () => {
       <div className="max-w-3xl w-full">
         <h2 className="font-bold text-2xl">Setting and Slide Outline</h2>
 
-        <SliderStyle selectStyle={(value: string) => setSelectedStyle(value)} />
+        <SliderStyle selectStyle={(value: DesignStyle) => setSelectedStyle(value)} />
 
         <OutlineSection
           loading={loading}
@@ -131,6 +184,7 @@ const Outline = () => {
           disabled={!selectedStyle}
           size={"lg"}
           className="fixed bottom-6 transform left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded"
+          
         >
           Genrate Slides <ArrowRight />
         </Button>

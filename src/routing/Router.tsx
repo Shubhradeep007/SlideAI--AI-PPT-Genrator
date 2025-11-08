@@ -7,6 +7,7 @@ import Workspace from "@/pages/workspace/Workspace";
 import { createBrowserRouter } from "react-router-dom";
 import Protectedroutes from "@/layout/Protectedroutes";
 import Outline from "@/pages/workspace/project/outline/Outline";
+import Editor from "@/pages/workspace/project/editor/Editor";
 
 const Router = createBrowserRouter([
   {
@@ -24,6 +25,7 @@ const Router = createBrowserRouter([
     children: [
       { path: "/workspace", element: <Workspace /> },
       { path: "/workspace/project/:id/outline", element: <Outline /> },
+      { path: "/workspace/project/:id/editor", element: <Editor /> },
     ],
   },
 ]);

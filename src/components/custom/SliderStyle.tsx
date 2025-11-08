@@ -5,7 +5,7 @@ import PastelSlder from "../../assets/pastel-ppt.jpg";
 import MinWhiteSlider from "../../assets/Minimalist-White.jpg";
 import { useState } from "react";
 
-const Design_Styles = [
+export const Design_Styles = [
   {
     styleName: "Professional Blue 💼",
     colors: {
@@ -79,7 +79,7 @@ const Design_Styles = [
 ];
 
 type Props = {
-  selectStyle: (value: string) => void;
+  selectStyle: (value: { styleName: string; colors: any; designGuide: string }) => void;
 };
 
 const SliderStyle = ({ selectStyle }: Props) => {
@@ -87,7 +87,14 @@ const SliderStyle = ({ selectStyle }: Props) => {
 
   const handleSelect = (styleName: string) => {
     setSelectedStyle(styleName);
-    selectStyle(styleName); // <-- send to parent
+    const selectedDesign = Design_Styles.find(design => design.styleName === styleName);
+    if (selectedDesign) {
+      selectStyle({
+        styleName: selectedDesign.styleName,
+        colors: selectedDesign.colors,
+        designGuide: selectedDesign.designGuide
+      });
+    }
   };
 
   return (
