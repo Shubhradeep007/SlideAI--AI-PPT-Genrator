@@ -4,9 +4,10 @@ import { UserDetailContext } from "@/hooks/context/UserDetailContext";
 import { useUser } from "@clerk/clerk-react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useContext, useEffect } from "react";
-import PromptBox from "./promtBox/PromptBox";
-import MyProject from "./myproject/MyProject";
 import Navbar from "./layout/Navbar";
+import Footer from "@/layout/Footer";
+import { Outlet } from "react-router-dom";
+
 
 const Workspace = () => {
   const { user} = useUser();
@@ -60,8 +61,8 @@ const Workspace = () => {
   return (
     <>
       <Navbar />
-      <PromptBox />
-      <MyProject />
+      <Outlet />
+      <Footer />
     </>
   );
 };

@@ -22,6 +22,7 @@ import { ArrowUp, Loader } from "lucide-react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
+import MyBackgroundImage from '@/assets/Workspace-backgeround.webp';
 
 const PromptBox = () => {
   const { user } = useUser();
@@ -49,18 +50,26 @@ const PromptBox = () => {
 
   return (
     <>
-      <div className="w-full flex items-center justify-center m-35 -ml-1">
-        <div className="flex flex-col items-center justify-center space-y-4">
+    
+      <div className="w-full flex items-center justify-center" style={{
+        backgroundImage: `url(${MyBackgroundImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        opacity: 10,
+        height: '100vh',
+      }} >
+        <div className="flex flex-col items-center justify-center space-y-4" >
           <h2 className="font-bold text-3xl">
             Describe your topic, We'll design the slides
           </h2>
           <p className="text-xl text-grey-500">
-            Your Design will be saved as a new project.{" "}
+            Your Design will be saved as a new project.
           </p>
 
           <InputGroup>
             <InputGroupTextarea
-              placeholder="Enter waht kind of siled do you want to create "
+              placeholder="Enter what kind of slide do you want to create "
               className="min-h-36"
               onChange={(e) => setUserInput(e.target.value)}
             />
@@ -95,6 +104,7 @@ const PromptBox = () => {
           </InputGroup>
         </div>
       </div>
+      
     </>
   );
 };

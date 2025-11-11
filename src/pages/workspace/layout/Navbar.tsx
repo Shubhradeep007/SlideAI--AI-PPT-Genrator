@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import GooeyNav from "@/components/GooeyNav";
 import { Gem, Menu, X } from "lucide-react";
-import testImage from "../../../assets/logo.png";
+import testImage from "../../../assets/test_logojpg-Photoroom.png";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { UserDetailContext } from "@/hooks/context/UserDetailContext";
@@ -18,8 +18,8 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const items = [
-    { label: "Workspce", href: "/about" },
-    { label: "Pricing", href: "/contact" },
+    { label: "Workspace", href: "/workspace" },
+    { label: "Pricing", href: "#" },
   ];
 
   const currentIndex = items.findIndex((i) => i.href === location.pathname);
@@ -32,7 +32,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 px-4">
+    <nav className="fixed top-0 left-0 right-0 z-50 px-5 ">
       <div className="mx-auto max-w-7xl p-3">
         <div className="flex items-center justify-between mt-2 p-3 md:p-4 rounded-3xl bg-white/30 dark:bg-neutral-900/40 backdrop-blur-md border border-white/10 dark:border-neutral-800/40 shadow-sm">
 
@@ -42,8 +42,8 @@ const Navbar = () => {
               <img
                 src={testImage}
                 alt="Logo"
-                width={60}
-                height={30}
+                width={70}
+                height={50}
                 className="object-contain"
               />
             </div>

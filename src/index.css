@@ -109,12 +109,12 @@
   --sidebar-ring: oklch(0.705 0.015 286.067);
 } */
 
-/* body{
+body{
   background-color: rgb(17, 17, 17);
   color: white;
 
   
-} */
+}
 
 @keyframes shimmer {
   0% { background-position: -500px 0; }
