@@ -6,8 +6,10 @@ import testImage from "../../../assets/test_logojpg-Photoroom.png";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { UserDetailContext } from "@/hooks/context/UserDetailContext";
+import useScrollToTop from "@/hooks/scroll/useScrollToTop";
 
 const Navbar = () => {
+  useScrollToTop();
   const { user } = useUser();
   const { userDetail } = useContext(UserDetailContext);
 
@@ -18,6 +20,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const items = [
+    { label: "Home", href: "/" },
     { label: "Workspace", href: "/workspace" },
     { label: "Pricing", href: "#" },
   ];

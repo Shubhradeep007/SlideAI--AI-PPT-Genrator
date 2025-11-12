@@ -11,6 +11,7 @@ import PptxGenJS from "pptxgenjs";
 import { FileDown, InfoIcon, Loader2, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { toast } from "sonner";
 
 const SLIDER_PROMPT = `You are creating a PowerPoint slide based on the AI-generated outline below. Use ALL the information provided to create a comprehensive, professional slide.
 
@@ -600,10 +601,10 @@ function Editor() {
       await pptx.writeFile({ fileName });
       console.log(`✅ PPT export completed successfully!`);
 
-      alert(`Successfully exported ${iframes.length} slides to ${fileName}`);
+      toast.success(`Successfully exported slides to ${fileName}`);
     } catch (error) {
       console.error("❌ Error during PPT export:", error);
-      alert("Failed to export PPT. Please check the console for details.");
+      toast.error("Failed to export PPT. Please check the console for details.");
     } finally {
       setDownloadLoading(false);
     }
@@ -754,20 +755,36 @@ function Editor() {
                 </div>
               )}
           </div>
-          {/* Export button */}
-          <Button
-            onClick={exportAllIframesToPPT}
-            size={"lg"}
-            className="fixed bottom-6 transform left-1/2 -translate-x-1/2 border bg-green-600 text-white rounded z-50 cursor-pointer"
-            disabled={downloadLoading}
-          >
-            {downloadLoading ? (
-              <Loader2 className="animate-spin" />
-            ) : (
-              <FileDown />
-            )}
-            Export PPT
-          </Button>
+       
+{loading ? (
+  <>
+    <Button
+      size={"lg"}
+      className="fixed bottom-6 transform left-1/2 -translate-x-1/2 border bg-green-600 text-white rounded z-50 cursor-pointer"
+      disabled={true}
+    >
+      Export PPT
+    </Button>
+  </>
+) : (
+  <>
+    <Button
+      onClick={exportAllIframesToPPT}
+      size={"lg"}
+      className="fixed bottom-6 transform left-1/2 -translate-x-1/2 border bg-green-600 text-white rounded z-50 cursor-pointer hover:bg-green-700"
+      disabled={downloadLoading || generatingSlides} 
+    >
+      {downloadLoading || generatingSlides ? (
+        <Loader2 className="animate-spin" />
+      ) : (
+        <FileDown />
+      )}
+      Export PPT
+    </Button>
+  </>
+)}
+
+          
         </div>
       )}
     </div>

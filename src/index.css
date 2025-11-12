@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import url('https://fonts.googleapis.com/css2?family=Momo+Trust+Display&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
@@ -112,8 +113,15 @@
 body{
   background-color: rgb(17, 17, 17);
   color: white;
+  font-family: "Momo Trust Display", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
 
-  
+.momo-trust-display-regular {
+  font-family: "Momo Trust Display", sans-serif;
+  font-weight: 400;
+  font-style: normal;
 }
 
 @keyframes shimmer {

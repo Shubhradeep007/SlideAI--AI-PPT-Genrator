@@ -7,7 +7,7 @@ import { UserDetailContext } from './hooks/context/UserDetailContext'
 import { useState } from 'react'
 
 function App() {
-
+  
   const [userDetail, setUserDetail] = useState()
 
   return (

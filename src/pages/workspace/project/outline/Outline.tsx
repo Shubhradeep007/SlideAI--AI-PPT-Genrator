@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SliderStyle from "@/components/custom/SliderStyle";
 import OutlineSection from "@/components/custom/OutlineSection";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import BackgroundBeamsWithCollision from "@/components/ui/background-beams-with-collision";
 
@@ -208,14 +208,27 @@ const Outline = () => {
           </div>
 
           {/* FIXED BUTTON */}
+          {loading ? <>
+           <Button
+            onClick={onGenerateSlider}
+            disabled={true}
+            size={"lg"}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded shadow-md"
+          > 
+            <Loader className="animate-spin w-5 h-5 text-gray-700" />
+            </Button>
+          </> : (
+            <>
           <Button
             onClick={onGenerateSlider}
             disabled={!selectedStyle}
             size={"lg"}
-            className="fixed bottom-6 left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded shadow-md"
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded shadow-md hover:bg-white cursor-pointer"
           >
             Generate Slides <ArrowRight />
           </Button>
+          </>)}
+          
         </BackgroundBeamsWithCollision>
       </div>
     </>
