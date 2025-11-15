@@ -2,12 +2,14 @@ import { useContext, useState, useEffect } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import GooeyNav from "@/components/GooeyNav";
 import { Gem, Menu, X } from "lucide-react";
-import testImage from "../assets/logo.png";
+import testImage from "../assets/test_logojpg-Photoroom.png";
 import { SignInButton, UserButton, useUser } from "@clerk/clerk-react";
 import { Button } from "@/components/ui/button";
 import { UserDetailContext } from "@/hooks/context/UserDetailContext";
+import useScrollToTop from "@/hooks/scroll/useScrollToTop";
 
 const Navbar = () => {
+  useScrollToTop();
   const { user } = useUser();
   const { userDetail } = useContext(UserDetailContext);
 

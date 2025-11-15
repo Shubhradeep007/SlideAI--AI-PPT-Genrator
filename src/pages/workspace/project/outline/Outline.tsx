@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import SliderStyle from "@/components/custom/SliderStyle";
 import OutlineSection from "@/components/custom/OutlineSection";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Loader } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import BackgroundBeamsWithCollision from "@/components/ui/background-beams-with-collision";
 
 const OUTLINE_PROMPT = `
 Generate a PowerPoint slide outline for the topic {userInput}.". Create {noOfSlider} slides in total. Each slide should include a topic name and a 2-line descriptive outline that clearly explains what content the slide will cover.
@@ -25,7 +26,7 @@ export type Project = {
   projectId: string;
   createdAt: number;
   noOfSlider: string;
-  outline?: SlideOutline[] ;
+  outline?: SlideOutline[];
   slides: any[];
   designStyle: DesignStyle;
 };
@@ -40,12 +41,12 @@ export type DesignStyle = {
   colors: any;
   designGuide: string;
   styleName: string;
-}
+};
 
 const Outline = () => {
   const { id } = useParams();
-  const navigate = useNavigate()
-  const [projectDetails, setProjectDetail] = useState<Project | null>(null);
+  const navigate = useNavigate();
+  const [, setProjectDetail] = useState<Project | null>(null);
   const [loading, setLoading] = useState(false);
   const [outline, setOutline] = useState<SlideOutline[]>([]);
   const [selectedStyle, setSelectedStyle] = useState<DesignStyle | null>(null);
@@ -129,7 +130,7 @@ const Outline = () => {
       console.log("  - Outline to save:", JSON.stringify(outline, null, 2));
       console.log("  - Outline items count:", outline.length);
       console.log("  - Design style:", selectedStyle?.styleName);
-      
+
       // Save outline and design style to database
       await setDoc(
         doc(firebaseDb, "projects", id as string),
@@ -139,26 +140,33 @@ const Outline = () => {
         },
         { merge: true }
       );
-      
+
       console.log("✅ Outline and designStyle saved successfully to database");
       console.log("  - Saved outline items:", outline.length);
-      
+
       // Verify the save by reading back
       const verifyDoc = await getDoc(doc(firebaseDb, "projects", id as string));
       if (verifyDoc.exists()) {
         const savedData = verifyDoc.data();
-        console.log("✅ Verification - Outline in database:", savedData.outline?.length || 0, "items");
+        console.log(
+          "✅ Verification - Outline in database:",
+          savedData.outline?.length || 0,
+          "items"
+        );
         if (savedData.outline && savedData.outline.length > 0) {
-          console.log("  - First saved item:", JSON.stringify(savedData.outline[0], null, 2));
+          console.log(
+            "  - First saved item:",
+            JSON.stringify(savedData.outline[0], null, 2)
+          );
         }
       }
 
       // Small delay to ensure Firestore has fully propagated
-      await new Promise(resolve => setTimeout(resolve, 800));
+      await new Promise((resolve) => setTimeout(resolve, 800));
 
       console.log("🧭 Navigating to editor page...");
       // navigate to slider editor
-      navigate('/workspace/project/'+id+'/editor');
+      navigate("/workspace/project/" + id + "/editor");
     } catch (error) {
       console.error("❌ Error saving data:", error);
       alert("Failed to save project data. Please try again.");
@@ -167,29 +175,63 @@ const Outline = () => {
   };
 
   return (
-    <div className="flex justify-center mt-20">
-      <div className="max-w-3xl w-full">
-        <h2 className="font-bold text-2xl">Setting and Slide Outline</h2>
-
-        <SliderStyle selectStyle={(value: DesignStyle) => setSelectedStyle(value)} />
-
-        <OutlineSection
-          loading={loading}
-          outline={outline}
-          handleUpdateOutline={handleUpdateOutline}
-        />
-
-        <Button
-          onClick={onGenerateSlider}
-          disabled={!selectedStyle}
-          size={"lg"}
-          className="fixed bottom-6 transform left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded"
-          
+    <>
+      <div className="w-full h-auto bg-black flex flex-col pt-10">
+        <BackgroundBeamsWithCollision
+          className={`w-full ${
+            loading ? "bg-gray-900" : "bg-black"
+          } min-h-screen h-auto`}
         >
-          Genrate Slides <ArrowRight />
-        </Button>
+          {/* Outer Container */}
+          <div className="flex flex-col md:flex-row justify-center items-start gap-8 px-6 mt-32 md:mt-20">
+            {/* LEFT: Design Selection Panel */}
+            <div className="w-full md:w-1/3 bg-transparent">
+              <h2 className="font-bold text-2xl mb-4 text-white">
+                Setting & Slide Outline
+              </h2>
+
+              <div className="sticky top-10">
+                <SliderStyle
+                  selectStyle={(value: DesignStyle) => setSelectedStyle(value)}
+                />
+              </div>
+            </div>
+
+            {/* RIGHT: Outline Section (scrollable) */}
+            <div className="w-full md:w-2/3 bg-white/5 backdrop-blur-sm rounded-2xl p-4 overflow-y-auto max-h-[80vh] border border-white/10">
+              <OutlineSection
+                loading={loading}
+                outline={outline}
+                handleUpdateOutline={handleUpdateOutline}
+              />
+            </div>
+          </div>
+
+          {/* FIXED BUTTON */}
+          {loading ? <>
+           <Button
+            onClick={onGenerateSlider}
+            disabled={true}
+            size={"lg"}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded shadow-md"
+          > 
+            <Loader className="animate-spin w-5 h-5 text-gray-700" />
+            </Button>
+          </> : (
+            <>
+          <Button
+            onClick={onGenerateSlider}
+            disabled={!selectedStyle}
+            size={"lg"}
+            className="fixed bottom-6 left-1/2 -translate-x-1/2 border bg-amber-300 text-black rounded shadow-md hover:bg-white cursor-pointer"
+          >
+            Generate Slides <ArrowRight />
+          </Button>
+          </>)}
+          
+        </BackgroundBeamsWithCollision>
       </div>
-    </div>
+    </>
   );
 };
 

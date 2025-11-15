@@ -8,6 +8,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Protectedroutes from "@/layout/Protectedroutes";
 import Outline from "@/pages/workspace/project/outline/Outline";
 import Editor from "@/pages/workspace/project/editor/Editor";
+import MainPrompt from "@/pages/workspace/promtBox/MainPrompt";
 
 const Router = createBrowserRouter([
   {
@@ -23,9 +24,15 @@ const Router = createBrowserRouter([
     path: "",
     element: <Protectedroutes />,
     children: [
-      { path: "/workspace", element: <Workspace /> },
-      { path: "/workspace/project/:id/outline", element: <Outline /> },
-      { path: "/workspace/project/:id/editor", element: <Editor /> },
+      {
+        path: "",
+        element: <Workspace />,
+        children: [
+          { index: true, path: "/workspace", element: <MainPrompt /> },
+          { path: "/workspace/project/:id/outline", element: <Outline /> },
+          { path: "/workspace/project/:id/editor", element: <Editor /> },
+        ],
+      },
     ],
   },
 ]);

@@ -1,6 +1,6 @@
 import type { SlideOutline } from "@/pages/workspace/project/outline/Outline";
 import { Button } from "../ui/button";
-import { ArrowRight, Edit } from "lucide-react";
+import { Edit } from "lucide-react";
 import EditOutlineDiolog from "./EditOutlineDiolog";
 
 type Props = {

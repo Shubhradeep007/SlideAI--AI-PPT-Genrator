@@ -3,7 +3,7 @@ import { Sparkles, MousePointerClick, Wand2 } from 'lucide-react';
 
 function AiEditGuide() {
   return (
-    <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200">
+    <Card className="bg-gradient-to-br from-purple-50 to-blue-50 border-purple-200 bg-black">
       <CardHeader className="pb-3">
         <div className="flex items-center gap-2">
           <Sparkles className="w-5 h-5 text-purple-600" />
@@ -48,10 +48,10 @@ function AiEditGuide() {
         </div>
 
         <div className="flex items-center gap-2 text-xs text-muted-foreground pt-2 border-t">
-          <kbd className="px-2 py-1 bg-white rounded border">Esc</kbd>
+          <kbd className="px-2 py-1 bg-white rounded border" style={{background: "black"}}>Esc</kbd>
           <span>to deselect</span>
           <span className="mx-2">•</span>
-          <kbd className="px-2 py-1 bg-white rounded border">Ctrl+Enter</kbd>
+          <kbd className="px-2 py-1 bg-white rounded border" style={{background: "black"}}>Ctrl+Enter</kbd>
           <span>to apply</span>
         </div>
       </CardContent>

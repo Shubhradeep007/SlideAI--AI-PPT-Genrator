@@ -32,7 +32,7 @@ function FloatingActionTool({ position, onClose, loading, handleAiChange }: Floa
 
   return (
     <div
-      className="fixed z-50 animate-in fade-in-0 zoom-in-95"
+      className="fixed z-50 animate-in fade-in-0 zoom-in-95 bg-black text-white/60"
       style={{
         left: `${position.x}px`,
         top: `${position.y + 10}px`,
